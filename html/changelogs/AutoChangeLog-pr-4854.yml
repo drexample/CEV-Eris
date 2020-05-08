@@ -1,0 +1,4 @@
+author: Hyperio
+delete-after: true
+changes:
+  - tweak: Crafting menu now regroups all variations of an item under a single option

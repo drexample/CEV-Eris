@@ -163,7 +163,7 @@
 		if(antag)
 			var/ok = FALSE
 			if(antag.outer && active)
-				var/answer = alert("[antag.name] is outer antagonist. [name] will be taken from the current mob and spawned as antagonist. Continue?","No","Yes")
+				var/answer = alert("[antag.name] is an outer antagonist. [name] will be taken from the current mob and spawned as antagonist. Continue?","No","Yes")
 				ok = (answer == "Yes")
 			else
 				var/answer = alert("Are you sure you want to make [name] the [antag.name]","Confirmation","No","Yes")
