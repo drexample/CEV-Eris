@@ -14,7 +14,7 @@ var/const/commandos_possible = 6 //if more Commandos are needed in the future
 		usr << "<font color='red'>There are [(6000-world.time)/10] seconds remaining before it may be called.</font>"
 		return
 
-	var/datum/antagonist/deathsquad/team
+	var/datum/role/deathsquad/team
 
 	var/choice = input(usr, "Select type of strike team:") as null|anything in list("Heavy Asset Protection", "Mercenaries")
 	if(!choice)

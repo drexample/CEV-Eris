@@ -97,7 +97,7 @@ SUBSYSTEM_DEF(mapping)
 		if (maps_data.overmap_z)
 			testing("Creating overmap events...")
 			var/t1 = world.tick_usage
-			overmap_event_handler.create_events(maps_data.overmap_z, maps_data.overmap_size, maps_data.overmap_event_areas)
+	//NTODO		overmap_event_handler.create_events(maps_data.overmap_z, maps_data.overmap_size, maps_data.overmap_event_areas)
 			testing("Overmap events created in [(world.tick_usage-t1)*0.01*world.tick_lag] seconds")
 		else
 			testing("Overmap failed to create events.")

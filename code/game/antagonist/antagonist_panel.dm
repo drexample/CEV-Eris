@@ -1,4 +1,4 @@
-/datum/antagonist/proc/get_panel_entry()
+/datum/role/proc/get_panel_entry()
 
 	var/dat = "<tr><td><b>[role_text]:</b>"
 	if(!owner)
@@ -48,10 +48,10 @@
 	dat += "</td></tr>"
 	return dat
 
-/datum/antagonist/proc/antagonist_panel()
+/datum/role/proc/antagonist_panel()
 	usr << browse(get_panel_entry(),"window=\ref[src]antag")
 
-/datum/antagonist/Topic(href, href_list)
+/datum/role/Topic(href, href_list)
 	if(!check_rights(R_ADMIN))
 		return TRUE
 
@@ -151,11 +151,11 @@
 
 	antagonist_panel()
 
-/datum/antagonist/proc/get_extra_panel_options()
+/datum/role/proc/get_extra_panel_options()
 	return
 
-/* !TODO: This should be implemented in storyteller_print.dm (GLOB.storyteller.antagonist_report())
-/datum/antagonist/proc/get_check_antag_output(var/datum/admins/caller)
+/* !TODO: This should be implemented in storyteller_print.dm (GLOB.storyteller.antag_roles_report())
+/datum/role/proc/get_check_antag_output(var/datum/admins/caller)
 
 	if(!current_antagonists || !current_antagonists.len)
 		return ""
@@ -195,5 +195,5 @@
 	return dat
 */
 //Overridden elsewhere.
-/datum/antagonist/proc/get_additional_check_antag_output(var/datum/admins/caller)
+/datum/role/proc/get_additional_check_antag_output(var/datum/admins/caller)
 	return ""

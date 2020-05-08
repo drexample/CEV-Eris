@@ -510,11 +510,11 @@ ADMIN_VERB_ADD(/datum/admins/proc/access_news_network, R_ADMIN, FALSE)
 		return
 
 	var/dat = "<center><B>Game Panel</B></center><hr>"
-	if(get_storyteller() && (SSticker.current_state != GAME_STATE_PREGAME))
+/*	if(get_storyteller() && (SSticker.current_state != GAME_STATE_PREGAME))
 		dat += "<A href='?src=\ref[get_storyteller()]'>Storyteller Panel</A><br>"
 	else
 		dat += "<A href='?src=\ref[src];c_mode=1'>Change Storyteller</A><br>"
-
+*/
 	dat += {"
 		<BR>
 		<A href='?src=\ref[src];create_object=1'>Create Object</A><br>
@@ -961,7 +961,7 @@ ADMIN_VERB_ADD(/datum/admins/proc/show_game_mode, R_ADMIN, FALSE)
 
 	out += "<b>All antag ids:</b>"
 	if(SSticker.mode.antag_templates && SSticker.mode.antag_templates.len).
-		for(var/datum/antagonist/antag in SSticker.mode.antag_templates)
+		for(var/datum/role/antag in SSticker.mode.antag_templates)
 			antag.update_current_antag_max()
 			out += " <a href='?src=\ref[SSticker.mode];debug_antag=[antag.id]'>[antag.id]</a>"
 			out += " ([antag.get_antag_count()]/[antag.cur_max]) "
@@ -1162,3 +1162,29 @@ ADMIN_VERB_ADD(/datum/admins/proc/paralyze_mob, R_ADMIN, FALSE)
 			H.paralysis = 0
 			msg = "has unparalyzed [key_name(H)]."
 		log_and_message_admins(msg)
+
+
+/proc/formatJumpTo(location, where = "")
+	var/turf/loc
+
+	if (isturf(location))
+		loc = location
+	else
+		loc = get_turf(location)
+
+	if (where == "")
+		where = formatLocation(loc)
+
+	return "<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[loc ? loc.x : "mystery"];Y=[loc ? loc.y : "mystery"];Z=[loc ? loc.z : "mystery"]'>[where]</a>"
+
+/proc/formatLocation(location)
+	var/turf/loc
+
+	if (isturf(location))
+		loc = location
+	else
+		loc = get_turf(location)
+
+	var/area/A = get_area(location)
+	var/answer = "[istype(A) ? "[A.name]" : "UNKNOWN"] - [istype(loc) ? "[loc.x],[loc.y],[loc.z]" : "UNKNOWN"]"
+	return answer

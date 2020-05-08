@@ -1,4 +1,4 @@
-/datum/antagonist/borer
+/datum/role/borer
 	id = ROLE_BORER
 	landmark_id = "hidden-vent-antag"
 	role_text = "Cortical Borer"
@@ -11,14 +11,14 @@
 	outer = TRUE
 	only_human = FALSE
 
-/datum/antagonist/borer/reproduced	//This antag datum will prevent all borers be rounstart
+/datum/role/borer/reproduced	//This antag datum will prevent all borers be rounstart
 	id = ROLE_BORER_REPRODUCED
 	selectable = FALSE
 	mob_path = /mob/living/simple_animal/borer
 
-/datum/antagonist/borer/create_objectives(var/survive = FALSE)
+/datum/role/borer/create_objectives(var/survive = FALSE)
 	new /datum/objective/borer_survive (src)
 	new /datum/objective/borer_reproduce (src)
 
-/datum/antagonist/borer/create_survive_objective()
+/datum/role/borer/create_survive_objective()
 	return

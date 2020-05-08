@@ -107,7 +107,7 @@
 	//Update their traitor status.
 	/*if(host.mind && src.mind)
 		var/list/L = get_player_antags(src.mind, ROLE_BORER)
-		var/datum/antagonist/borer/borer
+		var/datum/role/borer/borer
 		if(L.len)
 			borer = L[1]*/
 

@@ -18,6 +18,7 @@ var/roundstart_hour = 0
 var/station_date = ""
 var/next_station_date_change = 1 DAYS
 
+#define TimeOfGame (get_game_time())
 #define station_adjusted_time(time) time2text(time + station_time_in_ticks, "hh:mm")
 #define worldtime2stationtime(time) time2text(roundstart_hour HOURS + time, "hh:mm")
 #define roundduration2text_in_ticks (round_start_time ? world.time - round_start_time : 0)
@@ -103,6 +104,19 @@ var/global/rollovercheck_last_timeofday = 0
 		return midnight_rollovers++
 	return midnight_rollovers
 
+/**
+ * Returns "watch handle" (really just a timestamp :V)
+ */
+/proc/start_watch()
+	return TimeOfGame
+
+/**
+ * Returns number of seconds elapsed.
+ * @param wh number The "Watch Handle" from start_watch(). (timestamp)
+ */
+/proc/stop_watch(wh)
+	return round(0.1 * ( TimeOfGame - wh), 0.1)
+
 
 //Increases delay as the server gets more overloaded,
 //as sleeps aren't cheap and sleeping only to wake up and sleep again is wasteful
@@ -119,5 +133,6 @@ var/global/rollovercheck_last_timeofday = 0
 		sleep(i*world.tick_lag*DELTA_CALC)
 		i *= 2
 	while (world.tick_usage > min(TICK_LIMIT_TO_RUN, Master.current_ticklimit))
+
 
 #undef DELTA_CALC

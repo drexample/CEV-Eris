@@ -1,4 +1,4 @@
-/datum/antagonist/proc/show_objectives()
+/datum/role/proc/show_objectives()
 	if(!owner || !owner.current)
 		return
 
@@ -11,7 +11,7 @@
 
 	to_chat(owner.current, text)
 
-/datum/antagonist/proc/greet()
+/datum/role/proc/greet()
 	if(!owner || !owner.current)
 		return
 
@@ -32,16 +32,16 @@
 	printTip()
 	return TRUE
 
-/datum/antagonist/proc/printTip()
+/datum/role/proc/printTip()
 	var/tipsAndTricks/T = SStips.getRoleTip(src)
 	if(T)
 		var/mob/player = owner.current
 		to_chat(player, SStips.formatTip(T, "Tip for \a [role_text]: "))
 
-/datum/antagonist/proc/get_special_objective_text()
+/datum/role/proc/get_special_objective_text()
 	return ""
 
-/datum/antagonist/proc/print_success()
+/datum/role/proc/print_success()
 	if(faction)
 		return	//If antagonist have a faction, the success of the faction will be printed instead of antagonist success
 	var/text = print_player()
@@ -51,7 +51,7 @@
 	// Display the results.
 	return text
 
-/datum/antagonist/proc/print_objectives(var/append_success = TRUE)
+/datum/role/proc/print_objectives(var/append_success = TRUE)
 	var/text = get_special_objective_text()
 
 	var/list/contracts = list()
@@ -97,7 +97,7 @@
 
 	return text
 
-/datum/antagonist/proc/print_player()
+/datum/role/proc/print_player()
 	if(!owner)
 		return
 
@@ -117,7 +117,7 @@
 	text += ")"
 	return text
 
-/datum/antagonist/proc/print_uplink()
+/datum/role/proc/print_uplink()
 	if(!uplinks.len || !owner)
 		return
 

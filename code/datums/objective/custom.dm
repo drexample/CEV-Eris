@@ -12,4 +12,4 @@
 		if(!new_explane)
 			return
 		explanation_text = new_explane
-		antag.antagonist_panel()
+		antag.antag_roles_panel()

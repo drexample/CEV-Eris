@@ -43,4 +43,4 @@
 		else
 			target_amount = new_target
 			update_explanation()
-			antag.antagonist_panel()
+			antag.antag_roles_panel()

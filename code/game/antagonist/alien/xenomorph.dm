@@ -1,4 +1,4 @@
-/datum/antagonist/xenos
+/datum/role/xenos
 	id = ROLE_XENOMORPH
 	role_text = "Xenomorph"
 	role_text_plural = "Xenomorphs"
@@ -9,7 +9,7 @@
 	faction_type = /datum/faction/xenomorph
 	outer = TRUE
 
-/datum/antagonist/xenos/proc/get_vents()
+/datum/role/xenos/proc/get_vents()
 	var/list/vents = list()
 	for(var/obj/machinery/atmospherics/unary/vent_pump/temp_vent in SSmachines.machinery)
 		if(!temp_vent.welded && temp_vent.network && temp_vent.loc.z in config.station_levels)
@@ -17,10 +17,10 @@
 				vents += temp_vent
 	return vents
 
-/datum/antagonist/xenos/create_objectives(var/datum/mind/player)
+/datum/role/xenos/create_objectives(var/datum/mind/player)
 	if(!..())
 		return
 	new /datum/objective/survive (player)
 
-/datum/antagonist/xenos/place_antagonist(var/mob/living/player)
+/datum/role/xenos/place_antagonist(var/mob/living/player)
 	player.forceMove(get_turf(pick(get_vents())))

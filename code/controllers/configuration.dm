@@ -213,7 +213,7 @@ GLOBAL_LIST_EMPTY(storyteller_cache)
 	var/webhook_key
 
 /datum/configuration/New()
-	fill_storyevents_list()
+/*	fill_storyevents_list()
 
 	var/list/L = typesof(/datum/storyteller)-/datum/storyteller
 	for (var/T in L)
@@ -225,7 +225,7 @@ GLOBAL_LIST_EMPTY(storyteller_cache)
 			if(!(S.config_tag in storytellers))		// ensure each mode is added only once
 				log_misc("Adding storyteller [S.name] ([S.config_tag]) to configuration.")
 				src.storytellers += S.config_tag
-				src.storyteller_names[S.config_tag] = S.name
+				src.storyteller_names[S.config_tag] = S.name */
 
 /datum/configuration/proc/load(filename, type = "config") //the type can also be game_options, in which case it uses a different switch. not making it separate to not copypaste code - Urist
 	var/list/Lines = file2list(filename)
@@ -769,8 +769,8 @@ GLOBAL_LIST_EMPTY(storyteller_cache)
 	var/list/runnable_storytellers = list()
 	for(var/storyteller in GLOB.storyteller_cache)
 		var/datum/storyteller/S = GLOB.storyteller_cache[storyteller]
-		if(S)
-			runnable_storytellers |= S
+/*		if(S)
+			runnable_storytellers |= S */
 	return runnable_storytellers
 
 
@@ -784,3 +784,9 @@ GLOBAL_LIST_EMPTY(storyteller_cache)
 			config.python_path = "python"
 
 	world.name = station_name()
+
+/datum/configuration/proc/pick_mode(mode_name)
+	for (var/t in subtypesof(/datum/gamemode))  //-/datum/gamemode/cult
+		var/datum/gamemode/T = t
+		if (initial(T.name) && initial(T.name) == mode_name)
+			return new T

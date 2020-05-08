@@ -1,4 +1,4 @@
-/datum/antagonist/mercenary
+/datum/role/mercenary
 	id = ROLE_MERCENARY
 	bantype = ROLE_MERCENARY
 	faction_id = FACTION_SERBS
@@ -31,7 +31,7 @@
 
 
 
-/datum/antagonist/mercenary/equip()
+/datum/role/mercenary/equip()
 	var/mob/living/L = owner.current
 
 	//Put on the fatigues. Armor not included, they equip that manually from the merc base

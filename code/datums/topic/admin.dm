@@ -396,8 +396,8 @@
 	var/jobban_list = list()
 	for(var/a_id in GLOB.antag_bantypes)
 		var/a_ban = GLOB.antag_bantypes[a_id]
-		var/datum/antagonist/antag = get_antag_data(a_id)
-		jobban_list[antag.role_text] = a_ban
+		var/datum/role/antag = get_antag_data(a_id)
+		jobban_list[antag.name] = a_ban
 	body += source.formatJobGroup(M, "Antagonist Positions", "ffeeaa", "Syndicate", jobban_list)
 
 	dat = "<head>[header]</head><body><tt><table width='100%'>[body.Join(null)]</table></tt></body>"
@@ -699,7 +699,7 @@
 	require_perms = list(R_ADMIN)
 
 /datum/admin_topic/check_antagonist/Run(list/input)
-	GLOB.storyteller.storyteller_panel()
+//NTODO	GLOB.storyteller.storyteller_panel()
 
 
 /datum/admin_topic/c_mode
@@ -720,7 +720,7 @@
 
 /datum/admin_topic/c_mode2/Run(list/input)
 	master_storyteller = input["c_mode2"]
-	set_storyteller(master_storyteller) //This does the actual work
+//NTODO	set_storyteller(master_storyteller) //This does the actual work
 	log_admin("[key_name(usr)] set the storyteller to [master_storyteller].")
 	message_admins("\blue [key_name_admin(usr)] set the storyteller to [master_storyteller].", 1)
 	source.Game() // updates the main game menu
@@ -928,8 +928,8 @@
 	//Job + antagonist
 	if(M.mind)
 		var/antag = ""
-		for(var/datum/antagonist/A in M.mind.antagonist)
-			antag += "[A.role_text], "
+		for(var/datum/role/A in M.mind.antag_roles)
+			antag += "[A.name], "
 		special_role_description = "Role: <b>[M.mind.assigned_role]</b>; Antagonist: <font color='red'><b>[get_player_antag_name(M.mind)]</b></font>;"
 	else
 		special_role_description = "Role: <i>Mind datum missing</i> Antagonist: <i>Mind datum missing</i>; Has been rev: <i>Mind datum missing</i>;"
@@ -1167,9 +1167,9 @@
 	require_perms = list(R_MOD|R_ADMIN)
 
 /datum/admin_topic/traitor/Run(list/input)
-	if(!GLOB.storyteller)
+	/*if(!GLOB.storyteller)
 		alert("The game hasn't started yet!")
-		return
+		return NTODO */
 
 	var/mob/M = locate(input["traitor"])
 	if(!ismob(M))

@@ -1,4 +1,4 @@
-/proc/draft_ghost(role_text, ban_check, pref_check)
+/proc/draft_ghost(name, ban_check, pref_check)
 	var/list/candidates = list()
 	var/agree_time_out = FALSE
 	var/any_candidates = FALSE
@@ -13,10 +13,10 @@
 
 		any_candidates = TRUE
 
-		if(role_text)
+		if(name)
 			spawn()
 				O << 'sound/effects/magic/blind.ogg' //Play this sound to a player whenever when he's chosen to decide.
-				if(alert(O,"Do you want to become the [role_text]? Hurry up, you have 60 seconds to make choice!","Antag lottery","OH YES","No, I'm autist") == "OH YES")
+				if(alert(O,"Do you want to become the [name]? Hurry up, you have 60 seconds to make choice!","Antag lottery","OH YES","No, I'm autist") == "OH YES")
 					if(!agree_time_out)
 						candidates.Add(O)
 		else

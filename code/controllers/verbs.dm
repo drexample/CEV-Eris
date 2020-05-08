@@ -11,10 +11,10 @@ ADMIN_VERB_ADD(/client/proc/debug_antagonist_template, R_DEBUG, null)
 	set name = "Debug Antagonist"
 	set desc = "Debug an antagonist template."
 
-	var/datum/antagonist/antag = all_antag_types[antag_type]
+	var/datum/role/antag = all_antag_types[antag_type]
 	if(antag)
 		usr.client.debug_variables(antag)
-		message_admins("Admin [key_name_admin(usr)] is debugging the [antag.role_text] template.")
+		message_admins("Admin [key_name_admin(usr)] is debugging the [antag.name] template.")
 */
 
 

@@ -100,7 +100,7 @@
 	SSevent.event_complete(src)
 
 /datum/event/New(var/datum/storyevent/_SE, var/_severity)
-	storyevent = _SE
+//	storyevent = _SE
 	severity = _severity
 
 /datum/event/proc/Initialize()

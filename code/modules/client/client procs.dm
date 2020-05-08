@@ -428,3 +428,41 @@
 	if(UI)
 		qdel(UI)
 		UI = null
+
+
+/client/proc/GetRolePrefs()
+	var/list/roleprefs = list()
+	for(var/role_id in prefs.be_special_role)
+		roleprefs += role_id
+	if(!roleprefs.len)
+		return "none"
+	return english_list(roleprefs)
+
+/client/proc/desires_role(var/role_id, var/display_to_user=0)
+	var/role_desired = prefs.roles[role_id]
+	if(display_to_user && !(role_desired & ROLEPREF_PERSIST))
+		if(!(role_desired & ROLEPREF_POLLED))
+			spawn
+				var/question={"[role_id]
+Yes/No: Only affects this round
+Never/Always: Affects future rounds, you will not be polled again.
+NOTE:  You will only be polled about this role once per round. To change your choice, use Preferences > Setup Special Roles.  The change will take place AFTER this recruiting period."}
+				var/answer = alert(src,question,"Role Recruitment", "Yes","No","Never")
+				switch(answer)
+					if("Never")
+						prefs.roles[role_id] = ROLEPREF_NEVER
+					if("No")
+						prefs.roles[role_id] = ROLEPREF_NO
+					if("Yes")
+						prefs.roles[role_id] = ROLEPREF_YES
+					//if("Always")
+					//	prefs.roles[role_id] = ROLEPREF_ALWAYS
+				//testing("Client [src] answered [answer] to [role_id] poll.")
+				prefs.roles[role_id] |= ROLEPREF_POLLED
+		else
+			to_chat(src, "<span style='recruit'>The game is currently looking for [role_id] candidates.  Your current answer is <a href='?src=\ref[prefs]&preference=set_role&role_id=[role_id]'></a>.</span>")
+	return role_desired & ROLEPREF_ENABLE
+
+
+/proc/get_role_desire_str(var/rolepref)
+	return "Yes"

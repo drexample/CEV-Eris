@@ -1,4 +1,4 @@
-/datum/antagonist/changeling
+/datum/role/changeling
 	id = ROLE_CHANGELING
 	role_text = "Changeling"
 	role_text_plural = "Changelings"
@@ -22,14 +22,14 @@
 		STAT_VIG = 15
 	)
 
-/datum/antagonist/changeling/get_special_objective_text()
+/datum/role/changeling/get_special_objective_text()
 	if(owner && owner.changeling)
 		return "<br><b>Changeling ID:</b> [owner.changeling.changelingID].<br><b>Genomes Absorbed:</b> [owner.changeling.absorbedcount]"
 
-/datum/antagonist/changeling/special_init()
+/datum/role/changeling/special_init()
 	owner.current.make_changeling()
 
-/datum/antagonist/changeling/can_become_antag(datum/mind/player)
+/datum/role/changeling/can_become_antag(datum/mind/player)
 	if(..() && ishuman(player.current))
 		var/mob/living/carbon/human/H = player.current
 		if(H.isSynthetic())
@@ -39,10 +39,10 @@
 		return TRUE
 	return FALSE
 
-/datum/antagonist/changeling/equip()
+/datum/role/changeling/equip()
 	var/mob/living/L = owner.current
 
 	for(var/name in stat_modifiers)
 		L.stats.changeStat(name, stat_modifiers[name])
-		
+
 	setup_uplink_source(L, 5)

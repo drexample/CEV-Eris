@@ -14,6 +14,7 @@ var/const/GHOST_IMAGE_ALL = ~GHOST_IMAGE_NONE
 	status_flags = GODMODE
 	var/ghost_image_flag = GHOST_IMAGE_DARKNESS
 	var/image/ghost_image = null //this mobs ghost image, for deleting and stuff
+	var/started_as_observer //This variable is set to 1 when you enter the game as an observer.
 
 /mob/observer/can_fall()
 	return FALSE

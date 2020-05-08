@@ -66,7 +66,7 @@ SUBSYSTEM_DEF(event)
 		return
 
 	to_chat(world, "<br><br><br><font size=3><b>Random Events This Round:</b></font>")
-	for(var/datum/event/E in active_events|finished_events)
+/*	for(var/datum/event/E in active_events|finished_events)
 		var/datum/storyevent/SE = E.storyevent
 		if(!SE || SE.name == "Nothing")
 			continue
@@ -79,7 +79,7 @@ SUBSYSTEM_DEF(event)
 			else
 				message += "and ran to completion."
 
-		to_chat(world, message)
+		to_chat(world, message) NTODO */
 
 /datum/controller/subsystem/event/stat_entry()
 	..("E:[active_events.len]")

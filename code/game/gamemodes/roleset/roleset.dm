@@ -28,7 +28,7 @@
 	var/severity = EVENT_LEVEL_MUNDANE //The severity we're trying to trigger with
 
 
-/datum/storyevent/roleset/proc/antagonist_suitable(var/datum/mind/player, var/datum/antagonist/antag)
+/datum/storyevent/roleset/proc/antagonist_suitable(var/datum/mind/player, var/datum/role/antag)
 	return TRUE
 
 /datum/storyevent/roleset/proc/get_candidates_count(var/a_type)	//For internal using
@@ -36,7 +36,7 @@
 	return L.len
 
 /datum/storyevent/roleset/proc/get_candidates_list(var/antag, var/report)
-	var/datum/antagonist/A = GLOB.all_antag_types[role_id]
+	var/datum/role/A = GLOB.all_antag_types[role_id]
 
 	if (A.outer)
 		return ghost_candidates_list(role_id)
@@ -44,7 +44,7 @@
 		return candidates_list(role_id)
 
 /datum/storyevent/roleset/proc/candidates_list(var/antag, var/report)
-	var/datum/antagonist/temp = GLOB.all_antag_types[antag]
+	var/datum/role/temp = GLOB.all_antag_types[antag]
 	if(!istype(temp))
 		if (report) to_chat(report, SPAN_NOTICE("Failure: Unable to locate antag datum: -[temp]-[temp.type]- for antag [antag]"))
 		return list()
@@ -62,8 +62,8 @@
 		if(!(temp.bantype in candidate.current.client.prefs.be_special_role))
 			if (report) to_chat(report, SPAN_NOTICE("Failure: [candidate] has special role [temp.bantype] disabled"))
 			continue
-		if(GLOB.storyteller && GLOB.storyteller.one_role_per_player && candidate.antagonist.len)
-			if (report) to_chat(report, SPAN_NOTICE("Failure: [candidate] is already a [candidate.antagonist[1]] and can't be two antags"))
+		if(GLOB.storyteller && GLOB.storyteller.one_role_per_player && candidate.antag_roles.len)
+			if (report) to_chat(report, SPAN_NOTICE("Failure: [candidate] is already a [candidate.antag_roles[1]] and can't be two antags"))
 			continue
 		if(player_is_antag_id(candidate,antag))
 			if (report) to_chat(report, SPAN_NOTICE("Failure: [candidate] is already a [antag]"))
@@ -73,7 +73,7 @@
 
 /datum/storyevent/roleset/proc/ghost_candidates_list(var/antag, var/act_test = TRUE, var/report)
 
-	var/datum/antagonist/temp = GLOB.all_antag_types[antag]
+	var/datum/role/temp = GLOB.all_antag_types[antag]
 	if(!istype(temp))
 		return list()
 
@@ -129,7 +129,7 @@
 		//Something is completely wrong, abort!
 		cancel(severity, 0.0)
 
-	var/datum/antagonist/antag = GLOB.all_antag_types[role_id]
+	var/datum/role/antag = GLOB.all_antag_types[role_id]
 
 
 
@@ -146,7 +146,7 @@
 			if (!candidates.len)
 				break
 
-			var/datum/antagonist/A = new antag.type
+			var/datum/role/A = new antag.type
 
 			var/mob/M = pick_n_take(candidates)
 			if(!M)
@@ -186,7 +186,7 @@
 		if (success_quantity > 1)
 			success_percent = success_quantity / target_quantity
 		cancel(severity, success_percent)
-			
+
 		if ( success_quantity > 0 )
 			// At least one antag has spawned
 			return TRUE
@@ -207,7 +207,7 @@
 	return FALSE
 
 
-/datum/storyevent/roleset/proc/create_objectives(var/datum/antagonist/A)
+/datum/storyevent/roleset/proc/create_objectives(var/datum/role/A)
 	A.objectives.Cut()
 	A.create_objectives(survive = TRUE)
 	A.greet()

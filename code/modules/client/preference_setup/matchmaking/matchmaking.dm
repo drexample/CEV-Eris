@@ -69,7 +69,7 @@ var/global/datum/matchmaker/matchmaker = new()
 	if(!M.current)	//no extremely platonic relationships
 		return FALSE
 
-	var/datum/antagonist/antag = get_antag_data(M.antagonist)
+	var/datum/role/antag = get_antag_data(M.antag_roles)
 	if(antag && (antag.flags & ANTAG_OVERRIDE_JOB))
 		return FALSE
 

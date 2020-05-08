@@ -28,7 +28,7 @@
 		return
 
 	for(var/mob/M in GLOB.player_list)
-		if(M.client && (M.mind && !M.mind.antagonist.len) && M.stat != DEAD && (ishuman(M) || isrobot(M) || isAI(M)))
+		if(M.client && (M.mind && !M.mind.antag_roles.len) && M.stat != DEAD && (ishuman(M) || isrobot(M) || isAI(M)))
 			var/datum/job/job = SSjob.GetJob(M.mind.assigned_role)
 			if(job)
 				if(job.head_position)

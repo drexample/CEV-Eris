@@ -25,7 +25,7 @@ SUBSYSTEM_DEF(pai)
 			card.setPersonality(pai)
 			card.looking_for_personality = 0
 
-			if(pai.mind) update_antag_icons(pai.mind)
+//NTODO			if(pai.mind) pai.mind.update_hud_icons()
 
 			pai_candidates -= candidate
 			usr << browse(null, "window=findPai")

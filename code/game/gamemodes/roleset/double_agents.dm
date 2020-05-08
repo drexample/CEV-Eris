@@ -24,8 +24,8 @@
 	candidates.Remove(first)
 	var/datum/mind/second = pick(candidates)
 
-	var/datum/antagonist/a1 = create_antag_instance(ROLE_TRAITOR)
-	var/datum/antagonist/a2 = create_antag_instance(ROLE_TRAITOR)
+	var/datum/role/a1 = create_antag_instance(ROLE_TRAITOR)
+	var/datum/role/a2 = create_antag_instance(ROLE_TRAITOR)
 
 	a1.create_antagonist(first, announce = FALSE)
 	a2.create_antagonist(second, announce = FALSE)
@@ -34,7 +34,7 @@
 
 	return TRUE
 
-/datum/storyevent/roleset/double_agents/create_objectives(var/datum/antagonist/A, var/datum/antagonist/B)
+/datum/storyevent/roleset/double_agents/create_objectives(var/datum/role/A, var/datum/role/B)
 	var/datum/objective/assassinate/O = new(A)
 	O.set_target(B.owner)
 

@@ -37,7 +37,7 @@
 
 	var/list/bantypes
 	for(var/A in GLOB.all_antag_selectable_types)
-		var/datum/antagonist/antag = GLOB.all_antag_selectable_types[A]
+		var/datum/role/antag = GLOB.all_antag_selectable_types[A]
 
 		//Multiple antags can share one bantype, we only want it to be shown once
 		if (antag.bantype in bantypes)
@@ -120,7 +120,7 @@
 /datum/category_item/player_setup_item/antagonism/candidacy/proc/valid_special_roles(var/include_bans = TRUE)
 	var/list/private_valid_special_roles = list()
 	for(var/A in GLOB.all_antag_selectable_types)
-		var/datum/antagonist/antag = GLOB.all_antag_selectable_types[A]
+		var/datum/role/antag = GLOB.all_antag_selectable_types[A]
 		if(!include_bans)
 			if(jobban_isbanned(preference_mob(), antag.bantype))
 				continue

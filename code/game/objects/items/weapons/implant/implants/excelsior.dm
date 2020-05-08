@@ -49,7 +49,7 @@
 		//Human players have minds. If it doesnt have a mind, its probably a monkey
 		if (target.mind)
 			//We'll check if the target is already excelsior, return false if so, waste of an implant
-			for(var/datum/antagonist/A in target.mind.antagonist)
+			for(var/datum/role/A in target.mind.antag_roles)
 				if(A.id == antag_id)
 					return FALSE
 
@@ -74,7 +74,7 @@
 	return TRUE
 
 
-
+/* NTODO
 /obj/item/weapon/implant/excelsior/on_install(var/mob/living/target)
 	var/datum/faction/F = get_faction_by_id(faction_id)
 
@@ -84,7 +84,7 @@
 	if(!F)
 		to_chat(target, SPAN_WARNING("You feel nothing."))
 
-	for(var/datum/antagonist/A in target.mind.antagonist)
+	for(var/datum/role/A in target.mind.antag_roles)
 		if(A.id == antag_id && A.faction && A.faction.id == faction_id)
 			return
 
@@ -95,14 +95,14 @@
 	if(!istype(wearer) || !wearer.mind)
 		return
 
-	for(var/datum/antagonist/A in wearer.mind.antagonist)
+	for(var/datum/role/A in wearer.mind.antag_roles)
 		if(A.id == antag_id)
 			A.remove_antagonist()
 
 	if(prob(66))
 		wearer.adjustBrainLoss(200)
 		part.droplimb(FALSE, DROPLIMB_BLUNT)
-
+*/
 //The leader version of the implant is the one given to antags spawned by the storyteller.
 //It has no special gameplay properties and is not attainable in normal gameplay, it just exists to
 //prevent buggy behaviour.

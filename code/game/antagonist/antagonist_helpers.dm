@@ -1,5 +1,5 @@
 //If report is set, we will spam them with data about why the spawning failed
-/datum/antagonist/proc/can_become_antag(var/datum/mind/player, var/mob/report)
+/datum/role/proc/can_become_antag(var/datum/mind/player, var/mob/report)
 	if(!istype(player) || !player.current || !player.current.client)
 		if (report) to_chat(report, SPAN_NOTICE("Failure: [player] has no mob or client"))
 		return FALSE
@@ -25,7 +25,7 @@
 	return TRUE
 
 //If report is set, we will spam them with data about why the spawning failed
-/datum/antagonist/proc/can_become_antag_ghost(var/mob/ghost, var/mob/report)
+/datum/role/proc/can_become_antag_ghost(var/mob/ghost, var/mob/report)
 	if(!outer)
 		if (report) to_chat(report, SPAN_NOTICE("Failure: This antag isn't marked outer"))
 		return FALSE
@@ -41,19 +41,19 @@
 
 	return TRUE
 
-/datum/antagonist/proc/is_dead()
+/datum/role/proc/is_dead()
 	if(!owner || !owner.current || owner.current.stat == DEAD || !owner.active)
 		return TRUE
 	return FALSE
 
-/datum/antagonist/proc/is_active()
+/datum/role/proc/is_active()
 	if(is_dead())
 		return FALSE
 	if(!owner.current.client && !owner.current.teleop)
 		return FALSE
 	return TRUE
 
-/datum/antagonist/proc/is_type(var/antag_type)
+/datum/role/proc/is_type(var/antag_type)
 	if(antag_type == id || antag_type == role_text)
 		return 1
 	return 0

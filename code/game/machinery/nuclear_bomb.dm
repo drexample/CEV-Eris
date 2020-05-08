@@ -345,7 +345,7 @@ var/bomb_set
 			off_station = 1
 	else
 		off_station = 2
-
+/*
 	if(get_storyteller())
 		SSticker.nuke_in_progress = FALSE
 		if(off_station == 1)
@@ -359,7 +359,7 @@ var/bomb_set
 														//kinda shit but I couldn't  get permission to do what I wanted to do.
 
 		SSticker.station_explosion_cinematic(off_station)
-
+*/
 	return
 
 /obj/machinery/nuclearbomb/update_icon()

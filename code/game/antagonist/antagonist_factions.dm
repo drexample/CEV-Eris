@@ -25,7 +25,7 @@
 		leader_hud_indicator = hud_indicator
 	current_factions.Add(src)
 
-/datum/faction/proc/add_member(var/datum/antagonist/member, var/announce = TRUE)
+/datum/faction/proc/add_member(var/datum/role/member, var/announce = TRUE)
 	if(!member || !member.owner || !member.owner.current || (member in members) || !member.owner.current.client)
 		return
 	if(possible_antags.len && !(member.id in possible_antags))
@@ -44,7 +44,7 @@
 	update_members()
 	return TRUE
 
-/datum/faction/proc/add_leader(var/datum/antagonist/member, var/announce = TRUE)
+/datum/faction/proc/add_leader(var/datum/role/member, var/announce = TRUE)
 	if(!member || (member in leaders) || !member.owner.current)
 		return
 
@@ -68,12 +68,12 @@
 	//This allows a value of -1 to be passed, to convert everyone into a leader since it will never reach zero
 		//Just keeps going until theres no candidates left
 	while (num != 0 && candidates.len)
-		var/datum/antagonist/A = pick_n_take(candidates)
+		var/datum/role/A = pick_n_take(candidates)
 		add_leader(A)
 		num--
 
 
-/datum/faction/proc/remove_leader(var/datum/antagonist/member, var/announce = TRUE)
+/datum/faction/proc/remove_leader(var/datum/role/member, var/announce = TRUE)
 	if(!member || !(member in leaders) || !member.owner.current)
 		return
 
@@ -87,7 +87,7 @@
 	update_members()
 	return TRUE
 
-/datum/faction/proc/remove_member(var/datum/antagonist/member, var/announce = TRUE)
+/datum/faction/proc/remove_member(var/datum/role/member, var/announce = TRUE)
 	if(!(member in members))
 		return
 
@@ -108,7 +108,7 @@
 	return TRUE
 
 /datum/faction/proc/clear_faction()
-	for(var/datum/antagonist/A in members)
+	for(var/datum/role/A in members)
 		remove_member(A)
 
 	current_factions.Remove(src)
@@ -127,7 +127,7 @@
 /datum/faction/proc/set_objectives(var/list/new_objs)
 	objectives = new_objs
 
-	for(var/datum/antagonist/A in members)
+	for(var/datum/role/A in members)
 		A.set_objectives(new_objs)
 
 /datum/faction/proc/update_members()
@@ -147,7 +147,7 @@
 
 	message = capitalize(sanitize(message))
 	var/text = "<span class='revolution'>[name] member, [user]: \"[message]\"</span>"
-	for(var/datum/antagonist/A in members)
+	for(var/datum/role/A in members)
 		to_chat(A.owner.current, text)
 
 	//ghosts
@@ -160,7 +160,7 @@
 	log_say("[user.name]/[user.key] (REV [name]) : [message]")
 
 /datum/faction/proc/is_member(var/mob/user)
-	for(var/datum/antagonist/A in members)
+	for(var/datum/role/A in members)
 		if(A.owner.current == user)
 			return TRUE
 	return FALSE
@@ -173,14 +173,14 @@
 
 	if(leaders.len)
 		text += "<br><b>[capitalize(name)]'s leader[leaders.len >= 1?"":"s"] was:</b>"
-		for(var/datum/antagonist/A in leaders)
+		for(var/datum/role/A in leaders)
 			text += A.print_player()
 		text += "<br>"
 	else
 		text += "<br>[capitalize(name)] had no leaders.<br>"
 
 	text += "<br><b>[capitalize(name)]'s members was:</b>"
-	for(var/datum/antagonist/A in members)
+	for(var/datum/role/A in members)
 		text += A.print_player()
 
 	text += "<br>"
@@ -204,7 +204,7 @@
 	// Display the results.
 	return text
 
-/datum/faction/proc/get_indicator(var/datum/antagonist/A)
+/datum/faction/proc/get_indicator(var/datum/role/A)
 	if(A in leaders)
 		return get_leader_indicator()
 
@@ -221,7 +221,7 @@
 	I.plane = ABOVE_LIGHTING_PLANE
 	return I
 
-/datum/faction/proc/add_icons(var/datum/antagonist/antag)
+/datum/faction/proc/add_icons(var/datum/role/antag)
 	if(faction_invisible || !hud_indicator || !leader_hud_indicator || !antag.owner || !antag.owner.current || !antag.owner.current.client)
 		return
 
@@ -234,20 +234,20 @@
 		I.loc = antag.owner.current
 		faction_icons[antag] = I
 
-	for(var/datum/antagonist/member in members)
+	for(var/datum/role/member in members)
 		if(!member.owner || !member.owner.current || !member.owner.current.client)
 			continue
 
 		antag.owner.current.client.images |= faction_icons[member]
 		member.owner.current.client.images |= I
 
-/datum/faction/proc/remove_icons(var/datum/antagonist/antag)
+/datum/faction/proc/remove_icons(var/datum/role/antag)
 	if(!faction_invisible || !antag.owner || !antag.owner.current || !antag.owner.current.client)
 		qdel(faction_icons[antag])
 		faction_icons.Remove(antag)
 		return
 
-	for(var/datum/antagonist/member in members)
+	for(var/datum/role/member in members)
 		if(!member.owner || !member.owner.current || !member.owner.current.client)
 			continue
 
@@ -258,7 +258,7 @@
 	faction_icons[antag] = null
 
 /datum/faction/proc/clear_icons()
-	for(var/datum/antagonist/antag in members)
+	for(var/datum/role/antag in members)
 		remove_icons(antag)
 
 	for(var/icon in faction_icons)	//Some members of faction may be offline, but we need to remove all icons
@@ -268,10 +268,10 @@
 
 /datum/faction/proc/reset_icons()
 	clear_icons()
-	for(var/datum/antagonist/antag in members)
+	for(var/datum/role/antag in members)
 		add_icons(antag)
 
-/datum/faction/proc/update_icons(var/datum/antagonist/A)
+/datum/faction/proc/update_icons(var/datum/role/A)
 	remove_icons(A)
 	add_icons(A)
 
@@ -287,7 +287,7 @@
 
 	data += "<br><br><b>Members:</b>"
 	for(var/i=1;i<=members.len; i++)
-		var/datum/antagonist/member = members[i]
+		var/datum/role/member = members[i]
 		if(!istype(member))
 			data += "<br>Invalid element on index [i]: [member ? member : "NULL"]"
 		else
@@ -312,17 +312,17 @@
 		return
 
 	if(href_list["makeleader"])
-		var/datum/antagonist/A = locate(href_list["makeleader"])
+		var/datum/role/A = locate(href_list["makeleader"])
 		if(istype(A))
 			add_leader(A)
 
 	if(href_list["remleader"])
-		var/datum/antagonist/A = locate(href_list["remleader"])
+		var/datum/role/A = locate(href_list["remleader"])
 		if(istype(A) && (A in leaders))
 			remove_leader(A)
 
 	if(href_list["remmember"])
-		var/datum/antagonist/A = locate(href_list["remmember"])
+		var/datum/role/A = locate(href_list["remmember"])
 		if(istype(A) && !(A in leaders))
 			remove_member(A)
 
@@ -332,7 +332,7 @@
 //This returns a list of all items owned, held, worn, etc by faction members
 /datum/faction/proc/get_inventory()
 	var/list/contents = list()
-	for (var/datum/antagonist/A in members)
+	for (var/datum/role/A in members)
 		if (A.owner && A.owner.current)
 			contents.Add(A.owner.current.get_contents())
 
@@ -340,7 +340,7 @@
 
 
 /datum/faction/proc/greet()
-	for (var/datum/antagonist/A in members)
+	for (var/datum/role/A in members)
 		A.greet()
 
 

@@ -1,5 +1,5 @@
 // Inherits most of its vars from the base datum.
-/datum/antagonist/traitor
+/datum/role/traitor
 	id = ROLE_TRAITOR
 	protected_jobs = list(JOBS_SECURITY, JOBS_COMMAND)
 	bantype = ROLE_TRAITOR
@@ -17,19 +17,19 @@
 	)
 
 
-/datum/antagonist/traitor/get_extra_panel_options()
+/datum/role/traitor/get_extra_panel_options()
 	if(owner && owner.current)
 		return "<a href='?src=\ref[owner];common=crystals'>\[set crystals\]</a><a href='?src=\ref[src];spawn_uplink=\ref[owner.current]'>\[spawn uplink\]</a>"
 
-/datum/antagonist/traitor/Topic(href, href_list)
+/datum/role/traitor/Topic(href, href_list)
 	if (..())
 		return
 	if(href_list["spawn_uplink"]) spawn_uplink(locate(href_list["spawn_uplink"]))
 
-/datum/antagonist/traitor/can_become_antag(var/datum/mind/player)
+/datum/role/traitor/can_become_antag(var/datum/mind/player)
 	return ishuman(player.current) && ..(player)
 
-/datum/antagonist/traitor/equip()
+/datum/role/traitor/equip()
 	var/mob/living/L = owner.current
 
 	for(var/name in stat_modifiers)
@@ -47,7 +47,7 @@
 	return TRUE
 
 
-/datum/antagonist/traitor/proc/give_codewords()
+/datum/role/traitor/proc/give_codewords()
 	if(!owner.current)
 		return
 	var/mob/living/traitor_mob = owner.current
@@ -62,7 +62,7 @@
 
 
 
-/datum/antagonist/traitor/synth
+/datum/role/traitor/synth
 	id = ROLE_TRAITOR_SYNTH
 	only_human = FALSE
 
@@ -74,13 +74,13 @@
 
 	survive_objective = /datum/objective/survive
 
-/datum/antagonist/traitor/synth/can_become_antag(var/datum/mind/player)
+/datum/role/traitor/synth/can_become_antag(var/datum/mind/player)
 	return issilicon(player.current) && ..(player)
 
-/datum/antagonist/traitor/synth/equip()
+/datum/role/traitor/synth/equip()
 	add_law_zero()
 
-/datum/antagonist/traitor/synth/proc/add_law_zero()
+/datum/role/traitor/synth/proc/add_law_zero()
 	if(!isAI(owner.current))
 		return
 	var/mob/living/silicon/ai/killer = owner.current

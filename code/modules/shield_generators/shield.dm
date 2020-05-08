@@ -371,9 +371,9 @@ Like for example singulo act and whatever.
 		message_admins("A meteor has impacted shields at ([whereLink])", 0, 1)
 		log_game("A meteor has impacted shields at ([where]).")
 	*/
-	S.take_damage(get_shield_damage(), SHIELD_DAMTYPE_PHYSICAL, src)
+//NTODO	S.take_damage(get_shield_damage(), SHIELD_DAMTYPE_PHYSICAL, src)
 	visible_message("<span class='danger'>\The [src] breaks into dust!</span>")
-	make_debris()
+//NTODO	make_debris()
 	qdel(src)
 
 

@@ -1,4 +1,4 @@
-/datum/antagonist/rogue_ai
+/datum/role/rogue_ai
 	id = ROLE_MALFUNCTION
 	role_text = "Rampant AI"
 	role_text_plural = "Rampant AIs"
@@ -8,7 +8,7 @@
 	only_human = FALSE
 
 
-/datum/antagonist/rogue_ai/special_init()
+/datum/role/rogue_ai/special_init()
 	var/mob/living/silicon/ai/master = owner.current
 
 	for(var/mob/living/silicon/robot/R in GLOB.player_list)
@@ -30,7 +30,7 @@
 	return TRUE
 
 // Ensures proper reset of all malfunction related things.
-/datum/antagonist/rogue_ai/remove_antagonist()
+/datum/role/rogue_ai/remove_antagonist()
 	if(..())
 		var/mob/living/silicon/ai/p = owner.current
 		if(istype(p))
@@ -39,11 +39,11 @@
 	return FALSE
 
 
-/datum/antagonist/rogue_ai/create_survive_objective()
+/datum/role/rogue_ai/create_survive_objective()
 	return
 
 // Malf setup things have to be here, since game tends to break when it's moved somewhere else. Don't blame me, i didn't design this system.
-/datum/antagonist/rogue_ai/greet()
+/datum/role/rogue_ai/greet()
 	spawn(0)
 		if(!..())
 			return
@@ -70,7 +70,7 @@
 		printTip()
 
 
-/datum/antagonist/rogue_ai/can_become_antag(var/datum/mind/player)
+/datum/role/rogue_ai/can_become_antag(var/datum/mind/player)
 	if(!..())
 		return FALSE
 

@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////
 ///////////////////VOTES//////////////////////
 //////////////////////////////////////////////
-
+/*
 /datum/poll/restart
 	name = "Restart"
 	question = "Restart Round"
@@ -106,7 +106,7 @@
 	SSticker.story_vote_ended = TRUE
 
 
-	set_storyteller(config.pick_storyteller(master_storyteller), announce = !(pregame)) //This does the actual work //Even if master storyteller is null, this will pick the default
+//	set_storyteller(config.pick_storyteller(master_storyteller), announce = !(pregame)) //This does the actual work //Even if master storyteller is null, this will pick the default
 	if (pregame)
 		round_progressing = TRUE
 		to_chat(world, "<b>The game will start in [SSticker.pregame_timeleft] seconds.</b>")
@@ -126,8 +126,8 @@
 						typeText = initial(M.name)
 				else if(istype(T, /tipsAndTricks/roles))
 					var/tipsAndTricks/roles/RT = T
-					var/datum/antagonist/A = pick(RT.roles_list)
-					typeText = initial(A.role_text)
+					var/datum/role/A = pick(RT.roles_list)
+					typeText = initial(A.name)
 				else if(istype(T, /tipsAndTricks/jobs))
 					var/tipsAndTricks/jobs/JT = T
 					var/datum/job/J = pick(JT.jobs_list)
@@ -147,7 +147,7 @@
 	world.save_storyteller(master_storyteller)
 
 
-
+*/
 
 
 

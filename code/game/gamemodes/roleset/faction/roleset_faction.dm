@@ -12,7 +12,7 @@
 //This is a copypaste of roleset/trigger_event, with some new features added
 /datum/storyevent/roleset/faction/trigger_event()
 	calc_target_quantity()
-	var/datum/antagonist/antag = GLOB.all_antag_types[role_id]
+	var/datum/role/antag = GLOB.all_antag_types[role_id]
 	//Find the faction first, create it if it doesnt exist
 	if (!faction_id)
 		return
@@ -33,7 +33,7 @@
 		if (!candidates.len)
 			break
 
-		var/datum/antagonist/A = new antag.type
+		var/datum/role/A = new antag.type
 
 		var/M = pick_n_take(candidates)
 		if(!M)
@@ -91,7 +91,7 @@
 			return FALSE
 
 // Code to prevent a role from being picked by the storyteller.
-/datum/storyevent/roleset/faction/antagonist_suitable(var/datum/mind/player, var/datum/antagonist/antag)
+/datum/storyevent/roleset/faction/antagonist_suitable(var/datum/mind/player, var/datum/role/antag)
 	if(player.assigned_role in antag.story_ineligible)
 		return FALSE
 	return TRUE

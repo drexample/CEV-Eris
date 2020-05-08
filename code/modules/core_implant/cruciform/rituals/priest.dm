@@ -40,8 +40,8 @@
 
 	CI.activate()
 
-	if(get_storyteller())	//Call objectives update to check inquisitor objective completion
-		get_storyteller().update_objectives()
+/*	if(get_storyteller())	//Call objectives update to check inquisitor objective completion
+NTODO		get_storyteller().update_objectives()  */
 
 	return TRUE
 

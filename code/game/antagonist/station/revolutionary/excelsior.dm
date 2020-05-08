@@ -1,4 +1,4 @@
-/datum/antagonist/excelsior
+/datum/role/excelsior
 	id = ROLE_EXCELSIOR_REV
 	role_text = "Excelsior Infiltrator"
 	role_text_plural = "Infiltrators"
@@ -19,7 +19,7 @@
 		STAT_VIG = 15
 	)
 
-/datum/antagonist/excelsior/equip()
+/datum/role/excelsior/equip()
 	.=..()
 
 	// Makes sures to exclude the leader implant when used with implanter

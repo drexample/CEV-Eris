@@ -1,4 +1,4 @@
-/datum/antagonist/proc/update_antag_mob(var/transfer_mind = TRUE)
+/datum/role/proc/update_antag_mob(var/transfer_mind = TRUE)
 	// Get the mob.
 	if(owner.current && ispath(mob_path))
 		var/mob/holder = owner.current
@@ -17,7 +17,7 @@
 
 		return owner.current
 
-/datum/antagonist/proc/update_access()
+/datum/role/proc/update_access()
 	if(!owner || !owner.current)
 		return
 	for(var/obj/item/weapon/card/id/id in owner.current.contents)

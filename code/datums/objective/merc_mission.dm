@@ -73,7 +73,7 @@
 /datum/objective/timed/merc/proc/abort_mission()
 
 	//First of all, every merc left on eris is executed by a little bomb in their skull
-	for (var/datum/antagonist/A in owner_faction.members)
+	for (var/datum/role/A in owner_faction.members)
 		if (!A || !A.owner)
 			continue
 

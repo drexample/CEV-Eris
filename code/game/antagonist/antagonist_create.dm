@@ -1,4 +1,4 @@
-/datum/antagonist/proc/create_antagonist(datum/mind/target, datum/faction/new_faction, doequip = TRUE, announce = TRUE, update = TRUE, check = TRUE)
+/datum/role/proc/create_antagonist(datum/mind/target, datum/faction/new_faction, doequip = TRUE, announce = TRUE, update = TRUE, check = TRUE)
 	if(!istype(target) || !target.current)
 		log_debug("ANTAGONIST Wrong target passed to create_antagonist of [id]! Target: [target == null?"NULL":target] \ref[target]")
 		return FALSE
@@ -8,12 +8,12 @@
 		return FALSE
 
 	owner = target
-	target.antagonist.Add(src)
+	target.antag_roles.Add(src)
 	if(outer)
 		if(!ispath(mob_path))
 			owner = null
 			log_debug("ANTAGONIST [src.id]'s mob_path is not a path! ([mob_path])")
-			target.antagonist.Remove(src)
+			target.antag_roles.Remove(src)
 			return FALSE
 
 		if(update || !istype(target.current,mob_path))
@@ -43,10 +43,10 @@
 
 	return TRUE
 
-/datum/antagonist/proc/special_init()
+/datum/role/proc/special_init()
 
 
-/datum/antagonist/proc/create_from_ghost(var/mob/observer/ghost, var/datum/faction/new_faction, var/doequip = TRUE, var/announce = TRUE, var/update = TRUE)
+/datum/role/proc/create_from_ghost(var/mob/observer/ghost, var/datum/faction/new_faction, var/doequip = TRUE, var/announce = TRUE, var/update = TRUE)
 	if(!istype(ghost))
 		log_debug("ANTAGONIST Wrong target passed to create_from_ghost of [id]! Ghost: [ghost == null?"NULL":ghost] \ref[ghost]")
 		return FALSE
@@ -79,13 +79,13 @@
 
 	return create_antagonist(M.mind, new_faction, doequip, announce, update = FALSE)
 
-/datum/antagonist/proc/create_faction()
+/datum/role/proc/create_faction()
 	if(!faction && faction_id)
 		faction = create_or_get_faction(faction_id)
 		faction.add_member(src)
 		faction.create_objectives()
 
-/datum/antagonist/proc/set_antag_name()
+/datum/role/proc/set_antag_name()
 	if(!owner || !owner.current)
 		return
 	var/mob/living/player = owner.current
@@ -100,7 +100,7 @@
 	update_access(player)
 
 
-/datum/antagonist/proc/remove_antagonist()
+/datum/role/proc/remove_antagonist()
 	if(faction)
 		faction.remove_member(src)
 		faction = null
@@ -111,11 +111,11 @@
 	if(owner.current)
 		BITSET(owner.current.hud_updateflag, SPECIALROLE_HUD)
 
-	owner.antagonist.Remove(src)
+	owner.antag_roles.Remove(src)
 	owner = null
 	return TRUE
 
-/datum/antagonist/proc/place_antagonist()
+/datum/role/proc/place_antagonist()
 	if(!owner.current)
 		return
 	var/turf/T = pick_mobless_turf_if_exists(GLOB.antag_starting_locations[id])

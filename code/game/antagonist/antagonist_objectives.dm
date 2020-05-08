@@ -1,4 +1,4 @@
-/datum/antagonist/proc/create_objectives(var/survive = FALSE)
+/datum/role/proc/create_objectives(var/survive = FALSE)
 
 	if(!possible_objectives || !possible_objectives.len)
 		return
@@ -9,7 +9,7 @@
 
 
 // used only for factions antagonists
-/datum/antagonist/proc/set_objectives(var/list/new_objectives)
+/datum/role/proc/set_objectives(var/list/new_objectives)
 
 	if(!owner || !owner.current)
 		return
@@ -22,13 +22,13 @@
 
 	show_objectives()
 
-/datum/antagonist/proc/create_survive_objective()
+/datum/role/proc/create_survive_objective()
 	if(ispath(survive_objective))
 		new survive_objective(src)
 
 //Returns a list of all minds and atoms which have been targeted by our objectives
 //This is used to disqualify them from being picked by farther objectives
-/datum/antagonist/proc/get_targets()
+/datum/role/proc/get_targets()
 	var/list/targets = list()
 	for (var/datum/objective/O in objectives)
 		targets.Add(O.get_target())

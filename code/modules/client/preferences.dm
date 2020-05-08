@@ -12,6 +12,8 @@
 	var/last_ip
 	var/last_id
 
+	var/list/roles = list()
+
 	var/save_load_cooldown
 
 	//game-preferences

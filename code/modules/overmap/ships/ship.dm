@@ -20,19 +20,19 @@
 
 	Crossed(var/obj/effect/overmap_event/movable/ME)
 		..()
-		if(ME)
+	/*	if(ME)
 			if(istype(ME, /obj/effect/overmap_event/movable))
 				if(ME.OE)
 					if(istype(src, /obj/effect/overmap/ship))
-						ME.OE:enter(src)
+						ME.OE:enter(src)  NTODO */
 
 	Uncrossed(var/obj/effect/overmap_event/movable/ME)
 		..()
-		if(ME)
+	/*	if(ME)
 			if(istype(ME, /obj/effect/overmap_event/movable))
 				if(ME.OE)
 					if(istype(src, /obj/effect/overmap/ship))
-						ME.OE:leave(src)
+						ME.OE:leave(src)*/
 
 /obj/effect/overmap/ship/Initialize()
 	. = ..()

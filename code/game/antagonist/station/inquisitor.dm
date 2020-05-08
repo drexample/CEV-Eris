@@ -1,4 +1,4 @@
-/datum/antagonist/inquisitor
+/datum/role/inquisitor
 	id = ROLE_INQUISITOR
 	role_text = "NeoTheology Inquisitor"
 	role_text_plural = "NeoTheology Inquisitors"
@@ -21,7 +21,7 @@
 		STAT_VIG = 10
 	)
 
-/datum/antagonist/inquisitor/can_become_antag(var/datum/mind/M, var/mob/report)
+/datum/role/inquisitor/can_become_antag(var/datum/mind/M, var/mob/report)
 	if(!..())
 		if (report)
 			to_chat(report, SPAN_NOTICE("Failure: Parent can_become_antag returned false"))
@@ -32,7 +32,7 @@
 		return FALSE
 	return TRUE
 
-/datum/antagonist/inquisitor/equip()
+/datum/role/inquisitor/equip()
 	var/mob/living/L = owner.current
 
 	for(var/name in stat_modifiers)
@@ -53,7 +53,7 @@
 	return TRUE
 
 
-/datum/antagonist/inquisitor/greet()
+/datum/role/inquisitor/greet()
 	if(!owner || !owner.current)
 		return
 

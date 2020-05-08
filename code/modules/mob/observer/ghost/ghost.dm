@@ -15,9 +15,7 @@ var/global/list/image/ghost_sightless_images = list() //this is a list of images
 	var/can_reenter_corpse
 	var/datum/hud/living/carbon/hud = null // hud
 	var/bootime = 0
-	var/started_as_observer //This variable is set to 1 when you enter the game as an observer.
-							//If you died in the game and are a ghsot - this will remain as null.
-							//Note that this is not a reliable way to determine if admins started as observers, since they change mobs a lot.
+
 	var/has_enabled_antagHUD = 0
 	var/medHUD = 0
 	var/antagHUD = 0
@@ -115,7 +113,7 @@ Works together with spawning an observer, noted above.
 	if(antagHUD)
 		var/list/target_list = list()
 		for(var/mob/living/target in oview(src, 14))
-			if(target.mind && target.mind.antagonist.len != 0)
+			if(target.mind && target.mind.antag_roles.len != 0)
 				target_list += target
 		if(target_list.len)
 			assess_targets(target_list, src)

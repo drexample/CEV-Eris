@@ -3,7 +3,7 @@
 	if(current_antags.len)
 		var/list/antags_by_ids = list()
 		text += "<br><font size=3><b>Round antagonists were:</b></font>"
-		for(var/datum/antagonist/A in current_antags)
+		for(var/datum/role/A in current_antags)
 			if(!A.faction)
 				if(!islist(antags_by_ids[A.id]))
 					antags_by_ids[A.id] = list()
@@ -11,11 +11,11 @@
 
 		for(var/a_id in antags_by_ids)
 			var/list/L = antags_by_ids[a_id]
-			var/datum/antagonist/fA = L[1]
+			var/datum/role/fA = L[1]
 			text += "<br>"
 			if(L.len > 1)
 				text += "<br><b>The [fA.role_text_plural]:</b>"
-				for(var/datum/antagonist/A in antags_by_ids[a_id])
+				for(var/datum/role/A in antags_by_ids[a_id])
 					text += A.print_success()
 			else
 				text += "<br><b>The [fA.role_text]:</b>"
@@ -109,7 +109,7 @@
 	data += "<hr><b>Current antags:</b><div style=\"border:1px solid black;\"><ul>"
 
 	if (current_antags.len)
-		for(var/datum/antagonist/A in current_antags)
+		for(var/datum/role/A in current_antags)
 			var/act = "<font color=red>DEAD</font>"
 			if(!A.is_dead())
 				if(!A.is_active())

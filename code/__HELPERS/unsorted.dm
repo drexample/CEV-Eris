@@ -1211,3 +1211,53 @@ var/list/FLOORITEMS = list(
 		return 1
 	else
 		return 0
+
+
+
+/proc/find_active_faction_by_type(var/faction_type)
+	if(!SSticker || !SSticker.mode)
+		return null
+	return locate(faction_type) in SSticker.mode.factions
+
+/proc/find_active_faction_by_member(var/datum/role/R, var/datum/mind/M)
+	if(!R)
+		return null
+	var/found_faction = null
+	if(R.GetFaction())
+		return R.GetFaction()
+	if(SSticker && SSticker.mode && SSticker.mode.factions.len)
+		var/success = FALSE
+		for(var/datum/faction/F in SSticker.mode.factions)
+			for(var/datum/role/RR in F.members)
+				if(RR == R || RR.antag == M)
+					found_faction = F
+					success = TRUE
+					break
+			if(success)
+				break
+	return found_faction
+
+/proc/find_active_factions_by_member(var/datum/role/R, var/datum/mind/M)
+	var/list/found_factions = list()
+	for(var/datum/faction/F in SSticker.mode.factions)
+		for(var/datum/role/RR in F.members)
+			if(RR == R || RR.antag == M)
+				found_factions.Add(F)
+				break
+	return found_factions
+
+/proc/find_active_faction_by_typeandmember(var/fac_type, var/datum/role/R, var/datum/mind/M)
+	var/list/found_factions = find_active_factions_by_member(R, M)
+	return locate(fac_type) in found_factions
+
+/proc/find_unique_objectives(list/new_objectives, list/old_objectives)
+	var/list/uniques = list()
+	for (var/datum/objective/new_objective in new_objectives)
+		var/is_unique = TRUE
+		for (var/datum/objective/old_objective in old_objectives)
+			if (old_objective.name == new_objective.name)
+				is_unique = FALSE
+		if (is_unique)
+			uniques.Add(new_objective)
+	return uniques
+

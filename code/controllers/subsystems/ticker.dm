@@ -44,6 +44,8 @@ SUBSYSTEM_DEF(ticker)
 
 	var/newscaster_announcements = null
 
+	var/datum/gamemode/mode = null
+
 	//station_explosion used to be a variable for every mob's hud. Which was a waste!
 	//Now we have a general cinematic centrally held within the gameticker....far more efficient!
 	var/obj/screen/cinematic = null
@@ -103,9 +105,8 @@ SUBSYSTEM_DEF(ticker)
 				send_quote_of_the_round()
 				quoted = TRUE
 
-			if(!story_vote_ended && (pregame_timeleft == config.vote_autogamemode_timeleft || !first_start_trying))
-				if(!SSvote.active_vote)
-					SSvote.autostoryteller()	//Quit calling this over and over and over and over.
+	/*		if(!story_vote_ended && (pregame_timeleft == config.vote_autogamemode_timeleft || !first_start_trying))
+				if(!SSvote.active_vote)*/
 
 			if(pregame_timeleft <= 0)
 				current_state = GAME_STATE_SETTING_UP
@@ -120,8 +121,7 @@ SUBSYSTEM_DEF(ticker)
 				Master.SetRunLevel(RUNLEVEL_LOBBY)
 
 		if(GAME_STATE_PLAYING)
-			GLOB.storyteller.Process()
-			GLOB.storyteller.process_events()
+			mode.process()
 
 			if(!process_empty_server())
 				return
@@ -196,17 +196,33 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/setup()
 	//Create and announce mode
-
+/*
 	if(!GLOB.storyteller)
 		set_storyteller(announce = FALSE)
 
 	if(!GLOB.storyteller)
 		to_chat(world, "<span class='danger'>Serious error storyteller system!</span> Reverting to pre-game lobby.")
 		return FALSE
+*/
+	if(!mode)
+		mode = config.pick_mode("Dynamic Mode")
+
+		src.mode = new mode.type
+
+	if(!mode)
+		to_chat(world, "<span class='danger'>Failed to start the storyteller!</span> Reverting to pre-game lobby.")
+		return FALSE
+
+	if (!src.mode.can_start())
+		to_chat(world, "<B>Unable to start [mode.name].</B> Not enough players, [mode.minimum_player_count] players needed. Reverting to pre-game lobby.")
+		del(mode)
+		current_state = GAME_STATE_PREGAME
+		SSjob.ResetOccupations()
+		return 0
 
 	SSjob.ResetOccupations()
 	SSjob.DivideOccupations() // Apparently important for new antagonist system to register specific job antags properly.
-
+/*
 	if(!GLOB.storyteller.can_start(TRUE))
 		to_chat(world, "<B>Unable to start game.</B> Reverting to pre-game lobby.")
 		//GLOB.storyteller = null //Possibly bring this back in future if we have storytellers with differing requirements
@@ -214,7 +230,8 @@ SUBSYSTEM_DEF(ticker)
 		SSjob.ResetOccupations()
 		return FALSE
 
-	GLOB.storyteller.announce()
+	GLOB.storyteller.announce()*/
+
 
 	setup_economy()
 	newscaster_announcements = pick(newscaster_standard_feeds)
@@ -233,7 +250,6 @@ SUBSYSTEM_DEF(ticker)
 	callHook("roundstart")
 
 	spawn(0)//Forking here so we dont have to wait for this to finish
-		GLOB.storyteller.set_up()
 		to_chat(world, "<FONT color='blue'><B>Enjoy the game!</B></FONT>")
 		world << sound('sound/AI/welcome.ogg') // Skie
 		//Holiday Round-start stuff	~Carn
@@ -466,15 +482,14 @@ SUBSYSTEM_DEF(ticker)
 	if(dronecount)
 		to_chat(world, "<b>There [dronecount>1 ? "were" : "was"] [dronecount] industrious maintenance [dronecount>1 ? "drones" : "drone"] at the end of this round.</b>")
 
-	GLOB.storyteller.declare_completion()//To declare normal completion.
 
 	//Ask the event manager to print round end information
 	SSevent.RoundEnd()
 
 	//Print a list of antagonists to the server log
-	var/list/total_antagonists = list()
+/*NTODO	var/list/total_antagonists = list()
 	//Look into all mobs in world, dead or alive
-	for(var/datum/antagonist/antag in current_antags)
+	for(var/datum/role/antag in current_antags)
 		var/temprole = antag.id
 		if(temprole && antag.owner)							//if they are an antagonist of some sort.
 			if(!(temprole in total_antagonists))	//If the role doesn't exist in list, create it
@@ -485,4 +500,4 @@ SUBSYSTEM_DEF(ticker)
 	//Now print them all into the log!
 	log_game("Antagonists at round end were...")
 	for(var/i in total_antagonists)
-		log_game("[i]s[total_antagonists[i]].")
+		log_game("[i]s[total_antagonists[i]].")*/

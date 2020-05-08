@@ -456,14 +456,14 @@ default behaviour is:
 // Not recommended to directly call this proc on a mob without a good reason. It kicks out the player from the game without turning him into a ghost.
 /mob/living/despawn()
 	//Update any existing objectives involving this mob.
-	for(var/datum/objective/O in all_objectives)
+/*	for(var/datum/objective/O in all_objectives)
 		// We don't want revs to get objectives that aren't for heads of staff. Letting
 		// them win or lose based on cryo is silly so we remove the objective.
 		if(O.target == src.mind)
 			if(O.owner && O.owner.current)
 				to_chat(O.owner.current, SPAN_WARNING("You get the feeling your target is no longer within your reach..."))
 			qdel(O)
-
+*/
 	//Same for contract-based objectives.
 	for(var/datum/antag_contract/contract in GLOB.all_antag_contracts)
 		contract.on_mob_despawned(src.mind)

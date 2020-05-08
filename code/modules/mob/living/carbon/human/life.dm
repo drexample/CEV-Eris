@@ -949,10 +949,10 @@
 	if (BITTEST(hud_updateflag, SPECIALROLE_HUD))
 		var/image/holder = hud_list[SPECIALROLE_HUD]
 		holder.icon_state = "hudblank"
-		if(mind && mind.antagonist.len != 0)
-			var/datum/antagonist/antag = mind.antagonist[1]	//only display the first antagonist role
-			if(hud_icon_reference[antag.role_text]) 
-				holder.icon_state = hud_icon_reference[antag.role_text]
+		if(mind && mind.antag_roles.len != 0)
+			var/datum/role/antag = mind.antag_roles[1]	//only display the first antagonist role
+			if(hud_icon_reference[antag.name])
+				holder.icon_state = hud_icon_reference[antag.name]
 			else
 				holder.icon_state = "hudsyndicate"
 			hud_list[SPECIALROLE_HUD] = holder

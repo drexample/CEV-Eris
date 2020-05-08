@@ -163,7 +163,7 @@
 		var/datum/event/E = victims[victim]
 		E.kill()
 		LAZYREMOVE(victims, victim)
-
+/*
 /datum/overmap_event/meteor
 	name = "asteroid field"
 	event = /datum/event/meteor_wave/overmap
@@ -243,3 +243,4 @@
 	radius = 4
 	difficulty = EVENT_LEVEL_MAJOR
 	event_icon_states = list("carp3", "carp4")
+*/ //NTODO

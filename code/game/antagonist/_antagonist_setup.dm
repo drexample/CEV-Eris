@@ -8,7 +8,7 @@
 
  To use:
    - Get the appropriate datum via get_antag_data("antagonist id")
-     using the id var of the desired /datum/antagonist ie. var/datum/antagonist/A = get_antag_data("traitor")
+     using the id var of the desired /datum/antagonist ie. var/datum/role/A = get_antag_data("traitor")
    - Call add_antagonist() on the desired target mind ie. A.add_antagonist(mob.mind)
    - To ignore protected roles, supply a positive second argument.
    - To skip equipping with appropriate gear, supply a positive third argument.
@@ -31,58 +31,58 @@ GLOBAL_LIST_EMPTY(faction_types)
 	else
 		var/list/all_antag_types = GLOB.all_antag_types
 		for(var/cur_antag_type in all_antag_types)
-			var/datum/antagonist/antag = all_antag_types[cur_antag_type]
+			var/datum/role/antag = all_antag_types[cur_antag_type]
 			if(antag && antag.is_type(antag_type))
 				return antag
 
 /proc/clear_antagonist(var/datum/mind/player)
-	for(var/datum/antagonist/A in player.antagonist)
+	for(var/datum/role/A in player.antag_roles)
 		A.remove_antagonist()
 
 /proc/clear_antagonist_type(var/datum/mind/player, var/a_id)
-	for(var/datum/antagonist/A in player.antagonist)
+	for(var/datum/role/A in player.antag_roles)
 		if(A.id == a_id)
 			A.remove_antagonist()
 
 /proc/create_antag_instance(var/a_id)
-	var/list/datum/antagonist/all_antag_types = GLOB.all_antag_types
+	var/list/datum/role/all_antag_types = GLOB.all_antag_types
 	if(all_antag_types[a_id])
 		var/atype = all_antag_types[a_id].type
 		return new atype
 
 /proc/make_antagonist_ghost(var/mob/M, var/a_id)
-	var/list/datum/antagonist/all_antag_types = GLOB.all_antag_types
+	var/list/datum/role/all_antag_types = GLOB.all_antag_types
 	if(all_antag_types[a_id])
 		var/a_type = all_antag_types[a_id].type
-		var/datum/antagonist/A = new a_type
+		var/datum/role/A = new a_type
 		if(A.create_from_ghost(M))
 			return A
 
 /proc/make_antagonist(var/datum/mind/M, var/a_id)
-	var/list/datum/antagonist/all_antag_types = GLOB.all_antag_types
+	var/list/datum/role/all_antag_types = GLOB.all_antag_types
 	if(all_antag_types[a_id])
 		var/a_type = all_antag_types[a_id].type
-		var/datum/antagonist/A = new a_type
+		var/datum/role/A = new a_type
 		if(istype(M) && A.create_antagonist(M))
 			return A
 
 /proc/make_antagonist_faction(datum/mind/M, a_id, datum/faction/F, check = TRUE)
-	var/list/datum/antagonist/all_antag_types = GLOB.all_antag_types
+	var/list/datum/role/all_antag_types = GLOB.all_antag_types
 	if(all_antag_types[a_id])
 		var/a_type = all_antag_types[a_id].type
-		var/datum/antagonist/A = new a_type
+		var/datum/role/A = new a_type
 		A.create_antagonist(M, F, check = check)
 
 		return A
 
-/proc/update_antag_icons(var/datum/mind/player)
-	for(var/datum/antagonist/antag in player.antagonist)
+/proc/update_faction_icons(var/datum/mind/player)
+	for(var/datum/role/antag in player.antag_roles)
 		if(antag.faction)
 			antag.faction.update_icons(antag)
 
 /proc/populate_antag_type_list()
 	for(var/antag_type in typesof(/datum/antagonist)-/datum/antagonist)
-		var/datum/antagonist/A = new antag_type()
+		var/datum/role/A = new antag_type()
 		if(!A.id)
 			continue
 
@@ -111,7 +111,7 @@ GLOBAL_LIST_EMPTY(faction_types)
 
 /proc/get_antags(var/id)
 	var/list/L = list()
-	for(var/datum/antagonist/A in current_antags)
+	for(var/datum/role/A in current_antags)
 		if(A.id == id)
 			L.Add(A)
 	return L
@@ -120,7 +120,7 @@ GLOBAL_LIST_EMPTY(faction_types)
 	if(!istype(player))
 		return "ERROR"
 	var/names
-	for(var/datum/antagonist/A in player.antagonist)
+	for(var/datum/role/A in player.antag_roles)
 		if(names)
 			names += ", "+A.role_text
 		else
@@ -128,25 +128,25 @@ GLOBAL_LIST_EMPTY(faction_types)
 	return names
 
 /proc/player_is_antag(var/datum/mind/player, var/only_offstation_roles = FALSE)
-	for(var/datum/antagonist/antag in player.antagonist)
+	for(var/datum/role/antag in player.antag_roles)
 		if((antag.outer && only_offstation_roles) || !only_offstation_roles)
 			return TRUE
 	return FALSE
 
 /proc/player_is_ship_antag(var/datum/mind/player)
-	for(var/datum/antagonist/antag in player.antagonist)
+	for(var/datum/role/antag in player.antag_roles)
 		if(!antag.outer)
 			return TRUE
 	return FALSE
 
 /proc/player_is_antag_id(var/datum/mind/player, var/a_id)
-	for(var/datum/antagonist/antag in player.antagonist)
+	for(var/datum/role/antag in player.antag_roles)
 		if(!a_id || antag.id == a_id)
 			return TRUE
 	return FALSE
 
 /proc/player_is_antag_in_list(datum/mind/player, list/a_ids)
-	for(var/datum/antagonist/antag in player.antagonist)
+	for(var/datum/role/antag in player.antag_roles)
 		if(antag.id in a_ids)
 			return TRUE
 	return FALSE
@@ -156,24 +156,24 @@ GLOBAL_LIST_EMPTY(faction_types)
 		return current_antags
 
 	var/list/L = list()
-	for(var/datum/antagonist/antag in current_antags)
+	for(var/datum/role/antag in current_antags)
 		if(antag.id == a_type)
 			L.Add(antag)
 	return L
 
 /proc/get_player_antags(var/datum/mind/player, var/a_type)
 	if(!a_type)
-		return player.antagonist
+		return player.antag_roles
 
 	var/list/L = list()
-	for(var/datum/antagonist/antag in player.antagonist)
+	for(var/datum/role/antag in player.antag_roles)
 		if(antag.id == a_type)
 			L.Add(antag)
 	return L
 
 /proc/get_dead_antags_count(var/a_type)
 	var/count = 0
-	for(var/datum/antagonist/antag in current_antags)
+	for(var/datum/role/antag in current_antags)
 		if((!a_type || antag.id == a_type) && antag.is_dead())
 			count++
 	return count
@@ -183,14 +183,14 @@ GLOBAL_LIST_EMPTY(faction_types)
 		return current_antags.len
 
 	var/count = 0
-	for(var/datum/antagonist/antag in current_antags)
+	for(var/datum/role/antag in current_antags)
 		if(!a_type || antag.id == a_type)
 			count++
 	return count
 
 /proc/get_active_antag_count(var/a_type)
 	var/active_antags = 0
-	for(var/datum/antagonist/antag in current_antags)
+	for(var/datum/role/antag in current_antags)
 		if((!a_type || antag.id == a_type) && antag.is_active())
 			active_antags++
 	return active_antags
@@ -208,7 +208,7 @@ GLOBAL_LIST_EMPTY(faction_types)
 	return L
 
 /proc/player_is_antag_faction(var/datum/mind/player, var/a_id, var/datum/faction/F)
-	for(var/datum/antagonist/antag in player.antagonist)
+	for(var/datum/role/antag in player.antag_roles)
 		if((!a_id || antag.id == a_id) && antag.faction == F)
 			return TRUE
 	return FALSE

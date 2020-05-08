@@ -11,8 +11,8 @@
 
 /datum/objective/assassinate/marshal/update_explanation()
 	var/target_role = ""
-	if(target && target.antagonist.len)
-		for(var/datum/antagonist/A in target.antagonist)
+	if(target && target.antag_roles.len)
+		for(var/datum/role/A in target.antag_roles)
 			if(!A.outer)
 				target_role = A.role_text
 				break

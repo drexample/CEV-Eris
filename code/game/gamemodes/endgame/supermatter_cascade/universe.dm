@@ -113,7 +113,7 @@ The access requirements on the Asteroid Shuttles' consoles have now been revoked
 			APC.queue_icon_update()
 
 /datum/universal_state/supermatter_cascade/proc/PlayerSet()
-	for(var/datum/antagonist/A in current_antags)
+/*	for(var/datum/role/A in current_antags)
 		if(!isliving(A.owner.current))
 			continue
 		if(A.owner.current.stat!=2)
@@ -122,4 +122,5 @@ The access requirements on the Asteroid Shuttles' consoles have now been revoked
 			if (A.owner.current.HUDtech.Find("flash"))
 				flick("e_flash", A.owner.current.HUDtech["flash"])
 
-		A.remove_antagonist()
+//NTODO		A.remove_antagonist()
+*/

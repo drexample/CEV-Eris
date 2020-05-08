@@ -49,7 +49,7 @@
 	var/only_human = TRUE
 	var/allow_neotheology = TRUE //If false, followers of neotheology cannot become this antag
 
-/datum/antagonist/New()
+/datum/role/New()
 	..()
 	if(!role_text_plural)
 		role_text_plural = role_text

@@ -72,12 +72,13 @@
 /mob/living/simple_animal/borer/roundstart
 	roundstart = 1
 
+/*
 /mob/living/simple_animal/borer/Login()
 	..()
-	if(!roundstart && mind && !mind.antagonist.len)
-		var/datum/antagonist/A = create_antag_instance(ROLE_BORER_REPRODUCED)
+	if(!roundstart && mind && !mind.antag_roles.len)
+		var/datum/role/A = create_antag_instance(ROLE_BORER_REPRODUCED)
 		A.create_antagonist(mind,update = FALSE)
-
+NTODO */
 /mob/living/simple_animal/borer/New()
 	..()
 

@@ -209,12 +209,12 @@ This proc will attempt to create a burrow against a wall, within view of the tar
 /datum/controller/subsystem/migration/proc/choose_burrow_target(var/obj/structure/burrow/source, var/reroll_type = TRUE, var/reroll_prob = 99.5)
 	var/obj/structure/burrow/candidate
 
-	switch (GLOB.storyteller.config_tag)
+/*	switch (GLOB.storyteller.config_tag)
 		if ("jester") // Jester is much more likely to not reroll the maintenance check.
 			reroll_prob = 59.5
 		if ("warrior")
 			reroll_prob = 98.5
-
+*/
 	//Lets copy the list into a candidates buffer
 	var/list/candidates = all_burrows.Copy(1,0)
 
@@ -241,7 +241,7 @@ This proc will attempt to create a burrow against a wall, within view of the tar
 		//And a high chance to reroll it if its not what we want in terms of being in/out of maintenance
 		if ((candidate.maintenance != reroll_type) && prob(reroll_prob))
 			continue
-		
+
 		// if burrow was closed before it has chance to be ignored
 		if (candidate.isSealed && candidate.isRevealed && prob(reroll_prob/2))
 			continue
@@ -276,7 +276,7 @@ This proc will attempt to create a burrow against a wall, within view of the tar
 		//Burrow is already busy
 		if (candidate.target || candidate.recieving)
 			continue
-		
+
 		// Burrow is closed
 		if(candidate.isSealed)
 			continue

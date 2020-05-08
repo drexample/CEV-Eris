@@ -42,10 +42,12 @@
 
 	var/assigned_role
 	var/role_alt_title
-	var/list/antagonist = list()
+//	var/list/antagonist = list()
+	var/list/antag_roles = list()		// All the antag roles we have.
 
 	var/datum/job/assigned_job
 
+	var/special_role
 
 	var/has_been_rev = FALSE	//Tracks if this mind has been a rev or not
 
@@ -117,18 +119,17 @@
 	var/output = "<B>[current.real_name]'s Memory</B><HR>"
 	output += memory
 
-	for(var/datum/antagonist/A in antagonist)
-		if(!A.objectives.len)
-			break
-		if(A.faction)
-			output += "<br><b>Your [A.faction.name] faction objectives:</b>"
-		else
-			output += "<br><b>Your [A.role_text] objectives:</b>"
-		output += "[A.print_objectives(FALSE)]"
+	if(antag_roles.len)
+		for(var/role in antag_roles)
+			var/datum/role/R = antag_roles[role]
+			output += R.GetMemory(src,FALSE)//preventing edits
+		output += "<hr>"
 
 	recipient << browse(output, "window=memory")
 
 /datum/mind/proc/edit_memory()
+	return
+/* NTODO
 	if(SSticker.current_state != GAME_STATE_PLAYING)
 		alert("Not before round-start!", "Alert")
 		return
@@ -141,13 +142,13 @@
 
 	out += "<b>Make_antagonist: </b><br>"
 	for(var/A in GLOB.all_antag_selectable_types)
-		var/datum/antagonist/antag = GLOB.all_antag_selectable_types[A]
+		var/datum/role/antag = GLOB.all_antag_selectable_types[A]
 		var/antag_name = (antag.bantype in GLOB.all_antag_selectable_types) ? antag.bantype : "<font color='red'>[antag.bantype]</font>"
 		out += "<a href='?src=\ref[src];add_antagonist=[antag.bantype]'>[antag_name]</a><br>"
 	out += "<br>"
 
-	for(var/datum/antagonist/antag in antagonist)
-		out += "<br><b>[antag.role_text]</b> <a href='?src=\ref[antag]'>\[EDIT\]</a> <a href='?src=\ref[antag];remove_antagonist=1'>\[DEL\]</a>"
+	for(var/datum/role/antag in antag_roles)
+		out += "<br><b>[antag.name]</b> <a href='?src=\ref[antag]'>\[EDIT\]</a> <a href='?src=\ref[antag];remove_antagonist=1'>\[DEL\]</a>"
 	out += "</table><hr>"
 	out += "<br>[memory]"
 	out += "<br><a href='?src=\ref[src];edit_memory=1'>"
@@ -158,14 +159,14 @@
 		return
 
 	if(href_list["add_antagonist"])
-		var/datum/antagonist/antag = GLOB.all_antag_types[href_list["add_antagonist"]]
+		var/datum/role/antag = GLOB.all_antag_types[href_list["add_antagonist"]]
 		if(antag)
 			var/ok = FALSE
 			if(antag.outer && active)
-				var/answer = alert("[antag.role_text] is outer antagonist. [name] will be taken from the current mob and spawned as antagonist. Continue?","No","Yes")
+				var/answer = alert("[antag.name] is outer antagonist. [name] will be taken from the current mob and spawned as antagonist. Continue?","No","Yes")
 				ok = (answer == "Yes")
 			else
-				var/answer = alert("Are you sure you want to make [name] the [antag.role_text]","Confirmation","No","Yes")
+				var/answer = alert("Are you sure you want to make [name] the [antag.name]","Confirmation","No","Yes")
 				ok = (answer == "Yes")
 
 			if(!ok)
@@ -180,9 +181,9 @@
 
 			else
 				if(antag.create_antagonist(src))
-					log_admin("[key_name_admin(usr)] made [key_name(src)] into a [antag.role_text].")
+					log_admin("[key_name_admin(usr)] made [key_name(src)] into a [antag.name].")
 				else
-					to_chat(usr, SPAN_WARNING("[src] could not be made into a [antag.role_text]!"))
+					to_chat(usr, SPAN_WARNING("[src] could not be made into a [antag.name]!"))
 
 	else if(href_list["role_edit"])
 		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in joblist
@@ -257,7 +258,7 @@
 							suplink.uses = crystals
 
 	edit_memory()
-
+*/
 /datum/mind/proc/find_syndicate_uplink()
 	var/list/L = current.get_contents()
 	for (var/obj/item/I in L)
@@ -377,3 +378,19 @@
 	//In that case we'll show as inactive if the mob has been inactive longer than 15 minutes
 	if (inactive_time >= 15 MINUTES)
 		return "Inactive"
+
+/datum/mind/proc/GetRole(var/role_id)
+	if (role_id in antag_roles)
+		return antag_roles[role_id]
+	return FALSE
+
+/datum/mind/proc/GetRoleByType(var/type)
+	for(var/datum/role/R in antag_roles)
+		if(istype(R, type))
+			return R
+
+/datum/mind/proc/GetFactionFromRole(var/role_id)
+	var/datum/role/R = GetRole(role_id)
+	if(R)
+		return R.GetFaction()
+	return FALSE

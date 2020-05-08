@@ -10,7 +10,7 @@ var/global/list/all_objectives_types = null
 	return TRUE
 
 /datum/objective
-	var/datum/antagonist/antag = null
+	var/datum/role/antag = null
 	var/datum/mind/owner = null			//Who owns the objective.
 	var/datum/faction/owner_faction = null
 	var/explanation_text = "Nothing"	//What that person is supposed to do.
@@ -21,7 +21,7 @@ var/global/list/all_objectives_types = null
 	var/human_target = TRUE				//If true, only select human targets
 	var/unique = FALSE					//If true, each antag/faction can have only one instance of this objective
 
-/datum/objective/New(var/datum/antagonist/new_owner, var/datum/mind/_target)
+/datum/objective/New(var/datum/role/new_owner, var/datum/mind/_target)
 	if (istype(new_owner))
 		antag = new_owner
 		antag.objectives += src
@@ -83,8 +83,8 @@ var/global/list/all_objectives_types = null
 		return FALSE
 
 	//Special handling for targeting other antags
-	if (M.antagonist.len)
-		for (var/datum/antagonist/A in M.antagonist)
+	if (M.antag_roles.len)
+		for (var/datum/role/A in M.antag_roles)
 			//Make sure we don't target our own faction
 			if (owner_faction && (owner_faction == A.faction))
 				return FALSE
@@ -132,7 +132,7 @@ var/global/list/all_objectives_types = null
 
 	if(href_list["switch_target"])
 		select_human_target(usr)
-		antag.antagonist_panel()
+		antag.antag_roles_panel()
 
 
 //Used for steal objectives. Returns a list of the owner's contents, if the owner is a single player

@@ -119,7 +119,7 @@
 		return TRUE
 	if(href_list["switch_item"])
 		select_target(usr)
-		antag.antagonist_panel()
+		antag.antag_roles_panel()
 
 /datum/objective/steal/get_target()
 	return target_name

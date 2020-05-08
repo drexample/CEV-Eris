@@ -123,7 +123,7 @@
 			else
 				for(var/n = ++i; n <= optioncount; n++)
 					dat += "<dd><font color='blue'>&#09;[n]. ---------------</font><br></dd>"
-			if((isAI(user) || isrobot(user)) && (user.mind.antagonist.len && user.mind.original == user))
+			if((isAI(user) || isrobot(user)) && (user.mind.antag_roles.len && user.mind.original == user))
 				//Malf/Traitor AIs can bruteforce into the system to gain the Key.
 				dat += "<dd><A href='?src=\ref[src];hack=1'><i><font color='Red'>*&@#. Bruteforce Key</font></i></font></a><br></dd>"
 			else
@@ -359,7 +359,7 @@
 
 		//Hack the Console to get the password
 		if (href_list["hack"])
-			if((isAI(usr) || isrobot(usr)) && (usr.mind.antagonist.len && usr.mind.original == usr))
+			if((isAI(usr) || isrobot(usr)) && (usr.mind.antag_roles.len && usr.mind.original == usr))
 				src.hacking = 1
 				src.screen = 2
 				update_icon()

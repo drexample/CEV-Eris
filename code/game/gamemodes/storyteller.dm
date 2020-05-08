@@ -178,7 +178,7 @@ GLOBAL_DATUM(storyteller, /datum/storyteller)
 	ANTAGONIST HANDLING
 *********************************/
 /datum/storyteller/proc/update_objectives()
-	for(var/datum/antagonist/A in current_antags)
+	for(var/datum/role/A in current_antags)
 		if(!A.faction)
 			for(var/datum/objective/O in A.objectives)
 				O.update_completion()

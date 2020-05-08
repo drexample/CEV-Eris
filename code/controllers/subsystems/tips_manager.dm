@@ -27,8 +27,8 @@ SUBSYSTEM_DEF(tips)
 						typeText = initial(M.name)
 				else if(istype(T, /tipsAndTricks/roles))
 					var/tipsAndTricks/roles/RT = T
-					var/datum/antagonist/A = pick(RT.roles_list)
-					typeText = initial(A.role_text)
+					var/datum/role/A = pick(RT.roles_list)
+					typeText = initial(A.name)
 				else if(istype(T, /tipsAndTricks/jobs))
 					var/tipsAndTricks/jobs/JT = T
 					var/datum/job/J = pick(JT.jobs_list)
@@ -95,10 +95,10 @@ SUBSYSTEM_DEF(tips)
 	if(!target)
 		return
 	// We need types
-	var/datum/antagonist/roleType
+	var/datum/role/roleType
 	var/datum/job/jobType
 	if(target.mind)
-		roleType = target.mind.antagonist.len ? pick(target.mind.antagonist) : null	//pick random role cuz its a list
+		roleType = target.mind.antag_roles.len ? pick(target.mind.antag_roles) : null	//pick random role cuz its a list
 		jobType = target.mind.assigned_job
 	var/mob/mobType = target
 
@@ -133,7 +133,7 @@ SUBSYSTEM_DEF(tips)
 		var/tipsAndTricks/T = pick(GLOB.gameplayTips)
 		return T
 
-/datum/controller/subsystem/tips/proc/getRoleTip(var/datum/antagonist/role)
+/datum/controller/subsystem/tips/proc/getRoleTip(var/datum/role/role)
 	if(!istype(role))
 		error("Not role type variable was passed to tips subsystem. No tips for you.")
 	var/list/tipsAndTricks/candidates = list()

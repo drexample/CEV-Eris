@@ -1,4 +1,4 @@
-/datum/antagonist/proc/equip()
+/datum/role/proc/equip()
 
 	if(owner && !ishuman(owner.current))
 		return FALSE
@@ -6,14 +6,14 @@
 	owner.current.regenerate_icons()
 	return TRUE
 
-/datum/antagonist/proc/unequip()
+/datum/role/proc/unequip()
 	if(owner && !ishuman(owner.current))
 		return FALSE
 
 	owner.current.regenerate_icons()
 	return TRUE
 
-/datum/antagonist/proc/clear_equipment()
+/datum/role/proc/clear_equipment()
 	if(!ishuman(owner.current))
 		return FALSE
 
@@ -27,7 +27,7 @@
 	return TRUE
 
 //Adds extra access to a player when they become antag
-/datum/antagonist/proc/update_id()
+/datum/role/proc/update_id()
 	if(!owner || !owner.current)
 		return
 	if (!default_access || !default_access.len)
@@ -36,7 +36,7 @@
 	for (var/obj/item/weapon/card/id/W in things)
 		W.access |= default_access
 
-/datum/antagonist/proc/create_id(var/assignment, var/equip = 1)
+/datum/role/proc/create_id(var/assignment, var/equip = 1)
 	if(!owner || !owner.current || !ishuman(owner.current))
 		return
 
@@ -55,7 +55,7 @@
 	if(equip) player.equip_to_slot_or_del(W, slot_wear_id)
 	return W
 
-/datum/antagonist/proc/create_radio(var/freq)
+/datum/role/proc/create_radio(var/freq)
 	if(!owner || !owner.current || !ishuman(owner.current))
 		return
 
@@ -72,5 +72,5 @@
 	H.equip_to_slot_or_del(R, slot_l_ear)
 	return R
 
-/datum/antagonist/proc/spawn_uplink(var/mob/living/carbon/human/traitor_mob)
+/datum/role/proc/spawn_uplink(var/mob/living/carbon/human/traitor_mob)
 	setup_uplink_source(traitor_mob, DEFAULT_TELECRYSTAL_AMOUNT)
